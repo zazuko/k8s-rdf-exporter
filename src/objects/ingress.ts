@@ -21,5 +21,15 @@ export const fetch = async (api: APIList, ptr: ClownfacePtr): Promise<void> => {
     if (ingressNamespace) {
       ingressPtr.addOut(ns.k8s.namespace, namespaceIri(ingressNamespace));
     }
+
+    const rules = item.spec?.rules || [];
+    const hosts = rules.map((rule) => rule.host);
+    hosts.forEach((host) => {
+      if (!host) return;
+      ptr.blankNode()
+        .addOut(ns.rdf.type, ns.k8s.Host)
+        .addOut(ns.rdf.label, host)
+        .addIn(ns.k8s.hosts, ingressPtr);
+    });
   });
 };
