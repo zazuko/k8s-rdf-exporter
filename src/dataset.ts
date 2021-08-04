@@ -1,12 +1,14 @@
+/* eslint-disable import/prefer-default-export */
 import { KubeConfig, CoreV1Api, NetworkingV1Api } from '@kubernetes/client-node';
 import clownface from 'clownface';
 import $rdf from 'rdf-ext';
+import DatasetExt from 'rdf-ext/lib/Dataset';
 
 import { APIList } from './global';
 import { fetch as fetchIngresses } from './objects/ingress';
 import { fetch as fetchNamespaces } from './objects/namespace';
 
-export async function buildDataset() {
+export async function buildDataset(): Promise<DatasetExt> {
   const ptr = clownface({ dataset: $rdf.dataset() });
 
   const kc = new KubeConfig();
@@ -20,5 +22,5 @@ export async function buildDataset() {
   await fetchNamespaces(api, ptr);
   await fetchIngresses(api, ptr);
 
-  return ptr.dataset
-};
+  return ptr.dataset;
+}
