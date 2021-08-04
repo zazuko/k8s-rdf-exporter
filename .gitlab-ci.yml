@@ -1,0 +1,14 @@
+default:
+  image: docker.io/library/node:14-alpine
+  tags:
+    - kubernetes
+
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+    - npm ci
+    - npm run build
+    - npm run lint
