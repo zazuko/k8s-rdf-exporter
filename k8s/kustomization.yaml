@@ -5,4 +5,4 @@ namespace: kube-system
 
 resources:
   - service-account.yaml
-  - role-binding.yaml
+  - cluster-role-binding.yaml

@@ -23,6 +23,7 @@ export const buildConfig = (config?: Config): KubeConfig => {
     name: config.clusterName,
     server: config.apiUrl,
     skipTLSVerify: false,
+    caFile: config.certificatePath,
   });
   kc.addUser({
     name: userName,
