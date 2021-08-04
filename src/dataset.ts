@@ -1,18 +1,17 @@
 /* eslint-disable import/prefer-default-export */
-import { KubeConfig, CoreV1Api, NetworkingV1Api } from '@kubernetes/client-node';
+import { CoreV1Api, NetworkingV1Api } from '@kubernetes/client-node';
 import clownface from 'clownface';
 import $rdf from 'rdf-ext';
 import DatasetExt from 'rdf-ext/lib/Dataset';
 
+import { buildConfig, Config } from './config';
 import { APIList } from './global';
 import { fetch as fetchIngresses } from './objects/ingress';
 import { fetch as fetchNamespaces } from './objects/namespace';
 
-export async function buildDataset(): Promise<DatasetExt> {
+export async function buildDataset(config?: Config): Promise<DatasetExt> {
   const ptr = clownface({ dataset: $rdf.dataset() });
-
-  const kc = new KubeConfig();
-  kc.loadFromDefault();
+  const kc = buildConfig(config);
 
   const api: APIList = {
     core: kc.makeApiClient(CoreV1Api),
