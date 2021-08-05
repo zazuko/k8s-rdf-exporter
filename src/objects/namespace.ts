@@ -15,12 +15,12 @@ export const fetch = async (api: APIList, ptr: ClownfacePtr): Promise<void> => {
 
     // TODO: cluster name
     const nsPtr = ptr.namedNode(iri(namespaceName));
-    nsPtr.addOut(ns.rdf.type, ns.k8s.Namespace).addOut(ns.rdf.label, namespaceName);
+    nsPtr.addOut(ns.rdf.type, ns.k8s.Namespace).addOut(ns.rdfs.label, namespaceName);
 
     Object.entries(item.metadata?.labels || {}).forEach(([key, value]) => {
       ptr.blankNode()
         .addOut(ns.rdf.type, ns.k8s.Label)
-        .addOut(ns.rdf.label, key)
+        .addOut(ns.rdfs.label, key)
         .addOut(ns.rdf.value, value)
         .addIn(ns.k8s.labels, nsPtr);
     });

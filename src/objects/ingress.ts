@@ -17,7 +17,7 @@ export const fetch = async (api: APIList, ptr: ClownfacePtr): Promise<void> => {
 
     // TODO: cluster name
     const ingressPtr = ptr.namedNode(iri(ingressNamespace, ingressName));
-    ingressPtr.addOut(ns.rdf.type, ns.k8s.Ingress).addOut(ns.rdf.label, ingressName);
+    ingressPtr.addOut(ns.rdf.type, ns.k8s.Ingress).addOut(ns.rdfs.label, ingressName);
     if (ingressNamespace) {
       ingressPtr.addOut(ns.k8s.namespace, namespaceIri(ingressNamespace));
     }
@@ -28,7 +28,7 @@ export const fetch = async (api: APIList, ptr: ClownfacePtr): Promise<void> => {
       if (!host) return;
       ptr.blankNode()
         .addOut(ns.rdf.type, ns.k8s.Host)
-        .addOut(ns.rdf.label, host)
+        .addOut(ns.rdfs.label, host)
         .addIn(ns.k8s.hosts, ingressPtr);
     });
   });
