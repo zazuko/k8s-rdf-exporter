@@ -16,6 +16,7 @@ import { buildDataset } from './dataset';
   program.parse(process.argv);
   const options = program.opts();
 
+  // build the configuration object to use
   const config: Config = {
     apiUrl: `${options.apiUrl}`,
     certificatePath: `${options.certificatePath}`,
@@ -23,12 +24,15 @@ import { buildDataset } from './dataset';
     serviceToken: `${options.serviceToken}`,
   };
 
+  // specify the namespace if needed
   if (options.namespace) {
     config.namespace = `${options.namespace}`;
   }
 
+  // build the dataset using options from CLI
   const dataset = await buildDataset(config);
 
+  // print the dataset in turtle format directly in the console
   const ttl = turtle`${dataset}`.toString();
   console.log(ttl);
 })();

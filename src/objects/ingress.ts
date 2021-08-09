@@ -3,17 +3,33 @@ import { APIList, ClownfacePtr } from '../global';
 import * as ns from '../namespaces';
 import { iri as namespaceIri } from './namespace';
 
+/**
+ * Build IRI for an ingress.
+ *
+ * @param cluster name of the cluster.
+ * @param namespace namespace where the ingress is.
+ * @param name name of the ingress.
+ * @returns IRI for a cluster.
+ */
 export const iri = (
   cluster: string,
   namespace: string,
-  ingress: string,
-): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:ingress:${ingress}`];
+  name: string,
+): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:ingress:${name}`];
 
+/**
+ * Create nodes in the dataset for all ingresses.
+ *
+ * @param cluster name of the cluster.
+ * @param api list of client API.
+ * @param ptr clownface pointer.
+ */
 export const fetch = async (
   cluster: string,
   api: APIList,
   ptr: ClownfacePtr,
 ): Promise<void> => {
+  // fetch all ingresses
   const apiIngresses = await api.networking.listIngressForAllNamespaces();
   const ingresses = apiIngresses.body.items;
 
@@ -24,6 +40,7 @@ export const fetch = async (
       return;
     }
 
+    // create the named node for the ingress
     const ingressPtr = ptr.namedNode(
       iri(cluster, ingressNamespace, ingressName),
     );
@@ -37,6 +54,7 @@ export const fetch = async (
       );
     }
 
+    // create a new blank node for each host
     const rules = item.spec?.rules || [];
     const hosts = rules.map((rule) => rule.host);
     hosts.forEach((host) => {
