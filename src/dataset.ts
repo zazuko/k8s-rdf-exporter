@@ -6,8 +6,9 @@ import DatasetExt from 'rdf-ext/lib/Dataset';
 
 import { buildConfig, Config } from './config';
 import { APIList } from './global';
-import { fetch as fetchIngresses } from './objects/ingress';
+import { fetch as fetchCluster } from './objects/cluster';
 import { fetch as fetchNamespaces } from './objects/namespace';
+import { fetch as fetchIngresses } from './objects/ingress';
 
 export async function buildDataset(config?: Config): Promise<DatasetExt> {
   const ptr = clownface({ dataset: $rdf.dataset() });
@@ -19,6 +20,7 @@ export async function buildDataset(config?: Config): Promise<DatasetExt> {
     networking: kc.makeApiClient(NetworkingV1Api),
   };
 
+  await fetchCluster(cluster, api, ptr);
   await fetchNamespaces(cluster, api, ptr);
   await fetchIngresses(cluster, api, ptr);
 

@@ -1,6 +1,7 @@
 import { NamedNode } from '@rdfjs/types';
 import { APIList, ClownfacePtr } from '../global';
 import * as ns from '../namespaces';
+import { iri as clusterIri } from './cluster';
 
 export const iri = (cluster: string, name: string): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${name}`];
 
@@ -21,7 +22,8 @@ export const fetch = async (
     const nsPtr = ptr.namedNode(iri(cluster, namespaceName));
     nsPtr
       .addOut(ns.rdf.type, ns.k8s.Namespace)
-      .addOut(ns.rdfs.label, namespaceName);
+      .addOut(ns.rdfs.label, namespaceName)
+      .addOut(ns.k8s.cluster, clusterIri(cluster));
 
     Object.entries(item.metadata?.labels || {}).forEach(([key, value]) => {
       ptr
