@@ -41,6 +41,16 @@ export const fetch = async (
       .addOut(ns.rdfs.label, namespaceName)
       .addOut(ns.k8s.cluster, clusterIri(cluster));
 
+    // create a new blank node for each annotation
+    Object.entries(item.metadata?.annotations || {}).forEach(([key, value]) => {
+      ptr
+        .blankNode()
+        .addOut(ns.rdf.type, ns.k8s.Annotation)
+        .addOut(ns.rdfs.label, key)
+        .addOut(ns.rdf.value, value)
+        .addIn(ns.k8s.annotations, nsPtr);
+    });
+
     // create a new blank node for each label
     Object.entries(item.metadata?.labels || {}).forEach(([key, value]) => {
       ptr
