@@ -74,7 +74,7 @@ export const fetch = async (
 
     if (images.length > 0) {
       statefulSetPtr.addOut(
-        ns.k8s.image,
+        ns.oci.image,
         images,
       );
     }
