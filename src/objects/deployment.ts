@@ -74,7 +74,7 @@ export const fetch = async (
 
     if (images.length > 0) {
       deploymentPtr.addOut(
-        ns.oci.image,
+        ns.k8s.image,
         images,
       );
     }
