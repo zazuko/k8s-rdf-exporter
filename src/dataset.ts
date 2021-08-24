@@ -10,6 +10,7 @@ import { fetch as fetchCluster } from './objects/cluster';
 import { fetch as fetchNamespaces } from './objects/namespace';
 import { fetch as fetchIngresses } from './objects/ingress';
 import { fetch as fetchDeployment } from './objects/deployment';
+import { fetch as fetchStatefulSet } from './objects/statefulset';
 
 /**
  * Build a dataset containing Kubernetes elements.
@@ -34,6 +35,7 @@ export async function buildDataset(config?: Config): Promise<DatasetExt> {
   await fetchNamespaces(cluster, api, ptr);
   await fetchIngresses(cluster, api, ptr);
   await fetchDeployment(cluster, api, ptr);
+  await fetchStatefulSet(cluster, api, ptr);
 
   return ptr.dataset;
 }
