@@ -14,9 +14,7 @@ export type OCI = {
  * @param name name of the deployment.
  * @returns IRI for a cluster.
  */
-export const iri = (
-  name: string,
-): NamedNode => ns.oci[`${name}`];
+export const iri = (name: string): NamedNode => ns.oci[`${name}`];
 
 export const toOCI = (img: string): OCI | null => {
   const parts = img.match(
@@ -67,17 +65,22 @@ export const process = (img: string, ptr: ClownfacePtr): string | null => {
     return null;
   }
 
-  ptr.namedNode(
-    iri(registry),
-  ).addOut(ns.rdf.type, ns.oci.Registry).addOut(ns.rdfs.label, registry);
+  ptr
+    .namedNode(iri(image))
+    .addOut(ns.rdf.type, ns.oci.Image)
+    .addOut(ns.oci.repository, iri(repository))
+    .addOut(ns.rdfs.label, image);
 
-  ptr.namedNode(
-    iri(repository),
-  ).addOut(ns.rdf.type, ns.oci.Repository).addOut(ns.rdfs.label, repository);
+  ptr
+    .namedNode(iri(repository))
+    .addOut(ns.rdf.type, ns.oci.Repository)
+    .addOut(ns.oci.registry, iri(registry))
+    .addOut(ns.rdfs.label, repository);
 
-  ptr.namedNode(
-    iri(image),
-  ).addOut(ns.rdf.type, ns.oci.Image).addOut(ns.rdfs.label, image);
+  ptr
+    .namedNode(iri(registry))
+    .addOut(ns.rdf.type, ns.oci.Registry)
+    .addOut(ns.rdfs.label, registry);
 
   return image;
 };
