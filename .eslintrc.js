@@ -12,7 +12,8 @@ module.exports = {
     project: "./tsconfig.json",
   },
   rules: {
-    "no-console": "off"
+    "no-console": "off",
+    "prefer-destructuring": "off"
   },
   ignorePatterns: ["dist", ".eslintrc.js"],
 };

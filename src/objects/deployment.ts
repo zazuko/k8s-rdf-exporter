@@ -2,6 +2,7 @@ import { NamedNode } from '@rdfjs/types';
 import { APIList, ClownfacePtr } from '../global';
 import * as ns from '../namespaces';
 import { iri as namespaceIri } from './namespace';
+import { iri as ociIri, process as processOci } from './oci';
 
 /**
  * Build IRI for a deployment.
@@ -51,6 +52,30 @@ export const fetch = async (
       deploymentPtr.addOut(
         ns.k8s.namespace,
         namespaceIri(cluster, deploymentNamespace),
+      );
+    }
+
+    // fetch OCI information and link to the deployment
+    const images: NamedNode<string>[] = [];
+    const containers = item.spec?.template.spec?.containers;
+    containers?.forEach((container) => {
+      const { image } = container;
+      if (!image) {
+        return;
+      }
+
+      const imageName = processOci(image, ptr);
+      if (!imageName) {
+        return;
+      }
+
+      images.push(ociIri(imageName));
+    });
+
+    if (images.length > 0) {
+      deploymentPtr.addOut(
+        ns.k8s.image,
+        images,
       );
     }
   });
