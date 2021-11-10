@@ -18,7 +18,7 @@ export const iri = (name: string): NamedNode => ns.oci[`${name}`];
 
 export const toOCI = (img: string): OCI | null => {
   const parts = img.match(
-    /^(?:(?<registry>[a-z0-9-]+\.[a-z0-9.-]+(?::[0-9]+)?)\/)?(?<path>(?:[0-9a-z_-]+)(?:\/(?:[0-9a-z_-]+))*)(?::(?<tag>[0-9a-z._-]+))?(?:@(?<digest>.+))?$/,
+    /^(?:(?<registry>[a-z0-9-]+\.[a-z0-9.-]+(?::[0-9]+)?)\/)?(?<path>(?:[0-9a-z_-]+)(?:\/(?:[0-9a-z._-]+))*)(?::(?<tag>[0-9a-z._-]+))?(?:@(?<digest>.+))?$/,
   );
   if (!parts || !parts.groups) {
     return null;
