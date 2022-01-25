@@ -18,6 +18,22 @@ export const iri = (
 ): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:ingress:${name}`];
 
 /**
+ * Build IRI for an ingress host.
+ *
+ * @param cluster name of the cluster.
+ * @param namespace namespace where the ingress is.
+ * @param ingress name of the ingress.
+ * @param name name of the host.
+ * @returns IRI for a cluster.
+ */
+export const hostIri = (
+  cluster: string,
+  namespace: string,
+  ingress: string,
+  name: string,
+): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:ingress:${ingress}:host:${name}`];
+
+/**
  * Create nodes in the dataset for all ingresses.
  *
  * @param cluster name of the cluster.
@@ -54,13 +70,13 @@ export const fetch = async (
       );
     }
 
-    // create a new blank node for each host
+    // create a new node for each host
     const rules = item.spec?.rules || [];
     const hosts = rules.map((rule) => rule.host);
     hosts.forEach((host) => {
       if (!host) return;
       ptr
-        .blankNode()
+        .namedNode(hostIri(cluster, ingressNamespace, ingressName, host))
         .addOut(ns.rdf.type, ns.k8s.Host)
         .addOut(ns.rdfs.label, host)
         .addIn(ns.k8s.hosts, ingressPtr);
