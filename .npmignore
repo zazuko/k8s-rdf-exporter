@@ -3,5 +3,6 @@
 .git/
 .github/
 .gitignore
+*.tgz
 node_modules/
 tsconfig.json
