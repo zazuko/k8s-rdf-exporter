@@ -1,0 +1,7 @@
+.editorconfig
+.eslintrc.js
+.git/
+.github/
+.gitignore
+node_modules/
+tsconfig.json

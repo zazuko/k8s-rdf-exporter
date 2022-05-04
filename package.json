@@ -12,6 +12,9 @@
     "prepublish": "npm run build",
     "prepack": "npm run build"
   },
+  "files": [
+    "dist/**"
+  ],
   "keywords": [],
   "devDependencies": {
     "@types/clownface": "^1.2.4",
