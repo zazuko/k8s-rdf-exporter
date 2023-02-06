@@ -1,6 +1,8 @@
 import { NamedNode } from '@rdfjs/types';
 import { ClownfacePtr } from '../global';
-import * as ns from '../namespaces';
+import {
+  rdf, rdfs, oci, GeneratedNamespace,
+} from '../namespaces';
 
 export type OCI = {
   registry: string;
@@ -11,10 +13,11 @@ export type OCI = {
 /**
  * Build IRI for a OCI item.
  *
+ * @param ns IRI namespace.
  * @param name name of the deployment.
  * @returns IRI for a cluster.
  */
-export const iri = (name: string): NamedNode => ns.oci[`${name}`];
+export const iri = (ns: GeneratedNamespace, name: string): NamedNode => ns[`${name}`];
 
 export const toOCI = (img: string): OCI | null => {
   const parts = img.match(
@@ -45,45 +48,45 @@ export const toOCI = (img: string): OCI | null => {
   };
 };
 
-export const toString = (oci?: OCI | null): string | null => {
-  if (!oci) {
+export const toString = (ociObject?: OCI | null): string | null => {
+  if (!ociObject) {
     return null;
   }
-  return `${oci.registry}/${oci.path}:${oci.tag}`;
+  return `${ociObject.registry}/${ociObject.path}:${ociObject.tag}`;
 };
 
 export const standardize = (img: string): string | null => toString(toOCI(img));
 
-export const process = (img: string, ptr: ClownfacePtr): string | null => {
-  const oci = toOCI(img);
-  if (!oci) {
+export const process = (ns: GeneratedNamespace, img: string, ptr: ClownfacePtr): string | null => {
+  const ociData = toOCI(img);
+  if (!ociData) {
     return null;
   }
 
-  const registry = oci.registry;
-  const repository = `${oci.registry}/${oci.path}`;
-  const image = toString(oci);
+  const registry = ociData.registry;
+  const repository = `${ociData.registry}/${ociData.path}`;
+  const image = toString(ociData);
 
   if (!registry || !repository || !image) {
     return null;
   }
 
   ptr
-    .namedNode(iri(image))
-    .addOut(ns.rdf.type, ns.oci.Image)
-    .addOut(ns.oci.repository, iri(repository))
-    .addOut(ns.rdfs.label, image);
+    .namedNode(iri(ns, image))
+    .addOut(rdf.type, oci.Image)
+    .addOut(oci.repository, iri(ns, repository))
+    .addOut(rdfs.label, image);
 
   ptr
-    .namedNode(iri(repository))
-    .addOut(ns.rdf.type, ns.oci.Repository)
-    .addOut(ns.oci.registry, iri(registry))
-    .addOut(ns.rdfs.label, repository);
+    .namedNode(iri(ns, repository))
+    .addOut(rdf.type, oci.Repository)
+    .addOut(oci.registry, iri(ns, registry))
+    .addOut(rdfs.label, repository);
 
   ptr
-    .namedNode(iri(registry))
-    .addOut(ns.rdf.type, ns.oci.Registry)
-    .addOut(ns.rdfs.label, registry);
+    .namedNode(iri(ns, registry))
+    .addOut(rdf.type, oci.Registry)
+    .addOut(rdfs.label, registry);
 
   return image;
 };

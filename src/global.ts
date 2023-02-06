@@ -1,6 +1,20 @@
 import { AppsV1Api, CoreV1Api, NetworkingV1Api } from '@kubernetes/client-node';
 import clownface from 'clownface';
 import DatasetExt from 'rdf-ext/lib/Dataset';
+import { GeneratedNamespace } from './namespaces';
+
+/**
+ * Global context.
+ */
+export type GlobalContext = {
+  cluster: string;
+
+  baseIri: string;
+  ns: GeneratedNamespace;
+
+  baseIriOci: string;
+  nsOci: GeneratedNamespace;
+};
 
 /**
  * List of all API clients types.

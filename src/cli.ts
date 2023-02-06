@@ -1,6 +1,6 @@
 import { turtle } from '@tpluscode/rdf-string';
 import { Command } from 'commander';
-import { Config } from './config';
+import { Config, defaultBaseIri, defaultBaseIriOci } from './config';
 import { buildDataset } from './dataset';
 
 (async () => {
@@ -8,20 +8,24 @@ import { buildDataset } from './dataset';
 
   program
     .option('-n, --namespace <name>', 'name of the namespace to use')
-    .requiredOption('-u, --api-url <url>', 'API URL')
-    .requiredOption('-c, --cluster-name <name>', 'Kubernetes cluster name')
-    .requiredOption('-p, --certificate-path <path>', 'CA Certificate path')
-    .requiredOption('-t, --service-token <token>', 'service token to use');
+    .option('-b, --base-iri <baseIRI>', 'baseIRI to use for resources')
+    .option('--base-iri-oci <baseIRI>', 'baseIRI to use for OCI resources')
+    .option('-u, --api-url <url>', 'API URL')
+    .option('-c, --cluster-name <name>', 'Kubernetes cluster name')
+    .option('-p, --certificate-path <path>', 'CA Certificate path')
+    .option('-t, --service-token <token>', 'service token to use');
 
   program.parse(process.argv);
   const options = program.opts();
 
   // build the configuration object to use
   const config: Config = {
-    apiUrl: `${options.apiUrl}`,
-    certificatePath: `${options.certificatePath}`,
-    clusterName: `${options.clusterName}`,
-    serviceToken: `${options.serviceToken}`,
+    apiUrl: options.apiUrl ? `${options.apiUrl}` : undefined,
+    certificatePath: options.certificatePath ? `${options.certificatePath}` : undefined,
+    clusterName: options.clusterName ? `${options.clusterName}` : undefined,
+    serviceToken: options.serviceToken ? `${options.serviceToken}` : undefined,
+    baseIri: options.baseIri ? `${options.baseIri}` : defaultBaseIri,
+    baseIriOci: options.baseIriOci ? `${options.baseIriOci}` : defaultBaseIriOci,
   };
 
   // specify the namespace if needed

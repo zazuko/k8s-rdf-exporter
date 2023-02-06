@@ -1,30 +1,33 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NamedNode } from '@rdfjs/types';
-import { APIList, ClownfacePtr } from '../global';
-import * as ns from '../namespaces';
+import { APIList, ClownfacePtr, GlobalContext } from '../global';
+import {
+  rdf, rdfs, k8s, GeneratedNamespace,
+} from '../namespaces';
 
 /**
  * Build IRI for a cluster.
  *
+ * @param ns IRI namespace.
  * @param cluster name of the cluster.
  * @returns IRI for a cluster.
  */
-export const iri = (cluster: string): NamedNode => ns.k8s[`cluster/${cluster}`];
+export const iri = (ns: GeneratedNamespace, cluster: string): NamedNode => ns[`cluster/${cluster}`];
 
 /**
  * Create node in the dataset for the cluster.
  *
- * @param cluster name of the cluster.
+ * @param context RDF context.
  * @param api list of client API.
  * @param ptr clownface pointer.
  */
 export const fetch = async (
-  cluster: string,
+  context: GlobalContext,
   _api: APIList,
   ptr: ClownfacePtr,
 ): Promise<void> => {
-  const clusterPtr = ptr.namedNode(iri(cluster));
+  const { ns, cluster } = context;
+  const clusterPtr = ptr.namedNode(iri(ns, cluster));
   clusterPtr
-    .addOut(ns.rdf.type, ns.k8s.Cluster)
-    .addOut(ns.rdfs.label, cluster);
+    .addOut(rdf.type, k8s.Cluster)
+    .addOut(rdfs.label, cluster);
 };

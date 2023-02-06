@@ -1,14 +1,19 @@
 import { KubeConfig } from '@kubernetes/client-node';
 
+export const defaultBaseIri = 'urn:k8s:';
+export const defaultBaseIriOci = 'urn:oci:';
+
 /**
  * Configuration object to get access to cluster information.
  */
 export type Config = {
-  clusterName: string;
-  apiUrl: string;
-  serviceToken: string;
+  clusterName?: string;
+  apiUrl?: string;
+  serviceToken?: string;
   namespace?: string;
-  certificatePath: string;
+  certificatePath?: string;
+  baseIri?: string;
+  baseIriOci?: string;
 };
 
 /**
@@ -21,6 +26,16 @@ export const buildConfig = (config?: Config): KubeConfig => {
 
   // load default configuration of no custom configuration object was given
   if (!config) {
+    kc.loadFromDefault();
+    return kc;
+  }
+
+  // load default config if any cluster configuration field is missing
+  if (
+    !config?.apiUrl
+    || !config?.certificatePath
+    || !config?.serviceToken
+    || !config?.clusterName) {
     kc.loadFromDefault();
     return kc;
   }

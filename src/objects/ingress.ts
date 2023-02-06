@@ -1,25 +1,30 @@
 import { NamedNode } from '@rdfjs/types';
-import { APIList, ClownfacePtr } from '../global';
-import * as ns from '../namespaces';
+import { APIList, ClownfacePtr, GlobalContext } from '../global';
+import {
+  rdf, rdfs, k8s, GeneratedNamespace,
+} from '../namespaces';
 import { iri as namespaceIri } from './namespace';
 
 /**
  * Build IRI for an ingress.
  *
+ * @param ns IRI namespace.
  * @param cluster name of the cluster.
  * @param namespace namespace where the ingress is.
  * @param name name of the ingress.
  * @returns IRI for a cluster.
  */
 export const iri = (
+  ns: GeneratedNamespace,
   cluster: string,
   namespace: string,
   name: string,
-): NamedNode => ns.k8s[`cluster/${cluster}/namespace/${namespace}/ingress/${name}`];
+): NamedNode => ns[`cluster/${cluster}/namespace/${namespace}/ingress/${name}`];
 
 /**
  * Build IRI for an ingress host.
  *
+ * @param ns IRI namespace.
  * @param cluster name of the cluster.
  * @param namespace namespace where the ingress is.
  * @param ingress name of the ingress.
@@ -27,24 +32,27 @@ export const iri = (
  * @returns IRI for a cluster.
  */
 export const hostIri = (
+  ns: GeneratedNamespace,
   cluster: string,
   namespace: string,
   ingress: string,
   name: string,
-): NamedNode => ns.k8s[`cluster/${cluster}/namespace/${namespace}/ingress/${ingress}/host/${name}`];
+): NamedNode => ns[`cluster/${cluster}/namespace/${namespace}/ingress/${ingress}/host/${name}`];
 
 /**
  * Create nodes in the dataset for all ingresses.
  *
- * @param cluster name of the cluster.
+ * @param context RDF context.
  * @param api list of client API.
  * @param ptr clownface pointer.
  */
 export const fetch = async (
-  cluster: string,
+  context: GlobalContext,
   api: APIList,
   ptr: ClownfacePtr,
 ): Promise<void> => {
+  const { ns, cluster } = context;
+
   // fetch all ingresses
   const apiIngresses = await api.networking.listIngressForAllNamespaces();
   const ingresses = apiIngresses.body.items;
@@ -58,15 +66,15 @@ export const fetch = async (
 
     // create the named node for the ingress
     const ingressPtr = ptr.namedNode(
-      iri(cluster, ingressNamespace, ingressName),
+      iri(ns, cluster, ingressNamespace, ingressName),
     );
     ingressPtr
-      .addOut(ns.rdf.type, ns.k8s.Ingress)
-      .addOut(ns.rdfs.label, ingressName);
+      .addOut(rdf.type, k8s.Ingress)
+      .addOut(rdfs.label, ingressName);
     if (ingressNamespace) {
       ingressPtr.addOut(
-        ns.k8s.namespace,
-        namespaceIri(cluster, ingressNamespace),
+        k8s.namespace,
+        namespaceIri(ns, cluster, ingressNamespace),
       );
     }
 
@@ -76,10 +84,10 @@ export const fetch = async (
     hosts.forEach((host) => {
       if (!host) return;
       ptr
-        .namedNode(hostIri(cluster, ingressNamespace, ingressName, host))
-        .addOut(ns.rdf.type, ns.k8s.Host)
-        .addOut(ns.rdfs.label, host)
-        .addIn(ns.k8s.hosts, ingressPtr);
+        .namedNode(hostIri(ns, cluster, ingressNamespace, ingressName, host))
+        .addOut(rdf.type, k8s.Host)
+        .addOut(rdfs.label, host)
+        .addIn(k8s.hosts, ingressPtr);
     });
   });
 };

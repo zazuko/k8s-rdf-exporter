@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p .",
-    "dev": "ts-node-dev --respawn -- src/index.ts",
-    "start": "npm run build && node ./dist/index.js",
+    "dev": "ts-node-dev --respawn -- src/cli.ts",
+    "start": "npm run build && node ./dist/cli.js",
     "lint": "eslint .",
     "test": "npm run lint",
     "prepublish": "npm run build",
