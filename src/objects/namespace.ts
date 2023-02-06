@@ -21,7 +21,12 @@ export const iri = (cluster: string, name: string): NamedNode => ns.k8s[`cluster
  * @param name name of the resource.
  * @returns IRI for a cluster.
  */
-export const resourceIri = (cluster: string, namespace: string, kind: string, name: string): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:${kind}:${name}`];
+export const resourceIri = (
+  cluster: string,
+  namespace: string,
+  kind: string,
+  name: string,
+): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:${kind}:${name}`];
 
 /**
  * Create nodes in the dataset for all namespaces.
@@ -52,7 +57,7 @@ export const fetch = async (
       .addOut(ns.rdfs.label, namespaceName)
       .addOut(ns.k8s.cluster, clusterIri(cluster));
 
-    // create a new blank node for each annotation
+    // create a new node for each annotation
     Object.entries(item.metadata?.annotations || {}).forEach(([key, value]) => {
       ptr
         .namedNode(resourceIri(cluster, namespaceName, 'annotation', key))
@@ -62,7 +67,7 @@ export const fetch = async (
         .addIn(ns.k8s.annotations, nsPtr);
     });
 
-    // create a new blank node for each label
+    // create a new node for each label
     Object.entries(item.metadata?.labels || {}).forEach(([key, value]) => {
       ptr
         .namedNode(resourceIri(cluster, namespaceName, 'label', key))
