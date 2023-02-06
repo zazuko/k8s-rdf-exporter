@@ -4,6 +4,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint"],
   extends: [
+    "plugin:import/recommended",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "airbnb-typescript/base",
