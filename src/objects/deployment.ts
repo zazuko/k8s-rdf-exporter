@@ -16,7 +16,7 @@ export const iri = (
   cluster: string,
   namespace: string,
   name: string,
-): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:deployment:${name}`];
+): NamedNode => ns.k8s[`cluster/${cluster}/namespace/${namespace}/deployment/${name}`];
 
 /**
  * Build IRI for a deployment resource.
@@ -34,7 +34,7 @@ export const resourceIri = (
   deploymentName: string,
   kind: string,
   name: string,
-): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:deployment:${deploymentName}:${kind}:${name}`];
+): NamedNode => ns.k8s[`cluster/${cluster}/namespace/${namespace}/deployment/${deploymentName}/${kind}/${name}`];
 
 /**
  * Create nodes in the dataset for all deployments.

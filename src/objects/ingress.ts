@@ -15,7 +15,7 @@ export const iri = (
   cluster: string,
   namespace: string,
   name: string,
-): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:ingress:${name}`];
+): NamedNode => ns.k8s[`cluster/${cluster}/namespace/${namespace}/ingress/${name}`];
 
 /**
  * Build IRI for an ingress host.
@@ -31,7 +31,7 @@ export const hostIri = (
   namespace: string,
   ingress: string,
   name: string,
-): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:ingress:${ingress}:host:${name}`];
+): NamedNode => ns.k8s[`cluster/${cluster}/namespace/${namespace}/ingress/${ingress}/host/${name}`];
 
 /**
  * Create nodes in the dataset for all ingresses.

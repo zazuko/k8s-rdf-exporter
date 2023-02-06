@@ -16,7 +16,7 @@ export const iri = (
   cluster: string,
   namespace: string,
   name: string,
-): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:statefulset:${name}`];
+): NamedNode => ns.k8s[`cluster/${cluster}/namespace/${namespace}/statefulset/${name}`];
 
 /**
  * Build IRI for a StatefulSet resource.
@@ -34,7 +34,7 @@ export const resourceIri = (
   statefulSetName: string,
   kind: string,
   name: string,
-): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:statefulset:${statefulSetName}:${kind}:${name}`];
+): NamedNode => ns.k8s[`cluster/${cluster}/namespace/${namespace}/statefulset/${statefulSetName}/${kind}/${name}`];
 
 /**
  * Create nodes in the dataset for all StatefulSets.

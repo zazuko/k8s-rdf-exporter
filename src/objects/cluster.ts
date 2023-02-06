@@ -9,7 +9,7 @@ import * as ns from '../namespaces';
  * @param cluster name of the cluster.
  * @returns IRI for a cluster.
  */
-export const iri = (cluster: string): NamedNode => ns.k8s[`cluster:${cluster}`];
+export const iri = (cluster: string): NamedNode => ns.k8s[`cluster/${cluster}`];
 
 /**
  * Create node in the dataset for the cluster.

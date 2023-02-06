@@ -10,7 +10,7 @@ import { iri as clusterIri } from './cluster';
  * @param name name of the namespace.
  * @returns IRI for a cluster.
  */
-export const iri = (cluster: string, name: string): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${name}`];
+export const iri = (cluster: string, name: string): NamedNode => ns.k8s[`cluster/${cluster}/namespace/${name}`];
 
 /**
  * Build IRI for a namespace resource.
@@ -26,7 +26,7 @@ export const resourceIri = (
   namespace: string,
   kind: string,
   name: string,
-): NamedNode => ns.k8s[`cluster:${cluster}:namespace:${namespace}:${kind}:${name}`];
+): NamedNode => ns.k8s[`cluster/${cluster}/namespace/${namespace}/${kind}/${name}`];
 
 /**
  * Create nodes in the dataset for all namespaces.
