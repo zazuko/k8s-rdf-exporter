@@ -81,7 +81,7 @@ export const fetch = async (
         .addOut(rdf.type, k8s.Label)
         .addOut(rdfs.label, key)
         .addOut(rdf.value, value)
-        .addIn(k8s.labels, nsPtr);
+        .addIn(k8s.label, nsPtr);
     });
   });
 };

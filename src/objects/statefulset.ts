@@ -98,7 +98,7 @@ export const fetch = async (
         .addOut(rdf.type, k8s.Label)
         .addOut(rdfs.label, key)
         .addOut(rdf.value, value)
-        .addIn(k8s.labels, statefulSetPtr);
+        .addIn(k8s.label, statefulSetPtr);
     });
 
     // fetch OCI information and link to the statefulSet
