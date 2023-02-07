@@ -87,7 +87,7 @@ export const fetch = async (
         .namedNode(hostIri(ns, cluster, ingressNamespace, ingressName, host))
         .addOut(rdf.type, k8s.Host)
         .addOut(rdfs.label, host)
-        .addIn(k8s.hosts, ingressPtr);
+        .addIn(k8s.host, ingressPtr);
     });
   });
 };
