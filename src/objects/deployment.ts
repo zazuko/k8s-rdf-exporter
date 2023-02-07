@@ -120,7 +120,7 @@ export const fetch = async (
 
     if (images.length > 0) {
       deploymentPtr.addOut(
-        k8s.images,
+        k8s.image,
         images,
       );
     }
