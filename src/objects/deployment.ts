@@ -88,7 +88,7 @@ export const fetch = async (
         .addOut(rdf.type, k8s.Annotation)
         .addOut(rdfs.label, key)
         .addOut(rdf.value, value)
-        .addIn(k8s.annotations, deploymentPtr);
+        .addIn(k8s.annotation, deploymentPtr);
     });
 
     // create a new node for each label
