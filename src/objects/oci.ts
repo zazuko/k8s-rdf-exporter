@@ -1,6 +1,6 @@
 import { NamedNode } from "@rdfjs/types";
-import { ClownfacePtr } from "../global";
-import { rdf, rdfs, oci, GeneratedNamespace } from "../namespaces";
+import { ClownfacePtr } from "../global.js";
+import { rdf, rdfs, oci, GeneratedNamespace } from "../namespaces.js";
 
 export type OCI = {
   registry: string;

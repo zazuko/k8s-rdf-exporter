@@ -1,8 +1,8 @@
 import { NamedNode } from "@rdfjs/types";
-import { APIList, ClownfacePtr, GlobalContext } from "../global";
-import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces";
-import { iri as namespaceIri } from "./namespace";
-import { iri as ociIri, process as processOci } from "./oci";
+import { APIList, ClownfacePtr, GlobalContext } from "../global.js";
+import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces.js";
+import { iri as namespaceIri } from "./namespace.js";
+import { iri as ociIri, process as processOci } from "./oci.js";
 
 /**
  * Build IRI for a StatefulSet.

@@ -2,8 +2,8 @@
 
 import { turtle } from "@tpluscode/rdf-string";
 import { Command } from "commander";
-import { Config, defaultBaseIri, defaultBaseIriOci } from "./config";
-import { buildDataset } from "./dataset";
+import { Config, defaultBaseIri, defaultBaseIriOci } from "./config.js";
+import { buildDataset } from "./dataset.js";
 
 (async () => {
   const program = new Command();

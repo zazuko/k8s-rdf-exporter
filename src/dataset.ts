@@ -1,22 +1,22 @@
 /* eslint-disable import/prefer-default-export */
 import { AppsV1Api, CoreV1Api, NetworkingV1Api } from "@kubernetes/client-node";
 import clownface from "clownface";
-import $rdf from "rdf-ext";
-import DatasetExt from "rdf-ext/lib/Dataset";
+import rdf from "rdf-ext";
 
 import {
   buildConfig,
   Config,
   defaultBaseIri,
   defaultBaseIriOci,
-} from "./config";
-import { APIList, GlobalContext } from "./global";
-import { fetch as fetchCluster } from "./objects/cluster";
-import { fetch as fetchNamespaces } from "./objects/namespace";
-import { fetch as fetchIngresses } from "./objects/ingress";
-import { fetch as fetchDeployment } from "./objects/deployment";
-import { fetch as fetchStatefulSet } from "./objects/statefulset";
-import { generateNamespace } from "./namespaces";
+} from "./config.js";
+import { APIList, GlobalContext } from "./global.js";
+import { fetch as fetchCluster } from "./objects/cluster.js";
+import { fetch as fetchNamespaces } from "./objects/namespace.js";
+import { fetch as fetchIngresses } from "./objects/ingress.js";
+import { fetch as fetchDeployment } from "./objects/deployment.js";
+import { fetch as fetchStatefulSet } from "./objects/statefulset.js";
+import { generateNamespace } from "./namespaces.js";
+import { DatasetCore } from "@rdfjs/types";
 
 /**
  * Build a dataset containing Kubernetes elements.
@@ -24,8 +24,8 @@ import { generateNamespace } from "./namespaces";
  * @param config configuration to use instead of the default one.
  * @returns dataset with Kubernetes elements.
  */
-export async function buildDataset(config?: Config): Promise<DatasetExt> {
-  const ptr = clownface({ dataset: $rdf.dataset() });
+export async function buildDataset(config?: Config): Promise<DatasetCore> {
+  const ptr = clownface({ dataset: rdf.dataset() });
   const kc = buildConfig(config);
   const cluster = kc.getCurrentCluster()?.name || "k8s-cluster";
 

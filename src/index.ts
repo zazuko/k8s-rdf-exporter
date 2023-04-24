@@ -1,3 +1,3 @@
-import { buildDataset } from "./dataset";
+import { buildDataset } from "./dataset.js";
 
 export default buildDataset;

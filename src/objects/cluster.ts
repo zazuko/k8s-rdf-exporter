@@ -1,6 +1,6 @@
 import { NamedNode } from "@rdfjs/types";
-import { APIList, ClownfacePtr, GlobalContext } from "../global";
-import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces";
+import { APIList, ClownfacePtr, GlobalContext } from "../global.js";
+import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces.js";
 
 /**
  * Build IRI for a cluster.
