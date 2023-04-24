@@ -11,13 +11,15 @@
     "lint": "eslint .",
     "test": "npm run lint",
     "prepublish": "npm run build",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "release": "changeset publish"
   },
   "files": [
     "dist"
   ],
   "keywords": [],
   "devDependencies": {
+    "@changesets/cli": "^2.26.1",
     "@types/clownface": "^1.5.2",
     "@types/rdf-ext": "^2.2.0",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
@@ -38,5 +40,8 @@
     "clownface": "^1.5.1",
     "commander": "^10.0.1",
     "rdf-ext": "^2.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
