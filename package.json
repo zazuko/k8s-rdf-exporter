@@ -6,8 +6,7 @@
   "bin": "./dist/cli.js",
   "type": "module",
   "scripts": {
-    "build": "tsc -p .",
-    "dev": "ts-node-dev --respawn -- src/cli.ts",
+    "build": "tsc -p . && chmod +x ./dist/cli.js",
     "start": "npm run build && node ./dist/cli.js",
     "lint": "eslint .",
     "test": "npm run lint",

@@ -2,6 +2,12 @@
 
 ## Quick Start
 
+### Using `npx`
+
+```sh
+npx @zazuko/k8s-rdf-exporter
+```
+
 ### Using the default configured cluster
 
 ```sh
@@ -18,6 +24,7 @@ npm run build # build everything
 
 # deploy in the `kube-system` namespace in the current cluster
 #   - `k8s-rdf-exporter` ServiceAccount
+#   - `k8s-rdf-exporter` Secret (it will contain the ServiceAccount credentials, this will be automatically filled)
 #   - `k8s-rdf-exporter` ClusterRoleBinding, that gives the SA the `view` ClusterRole
 (cd k8s && kustomize build | kubectl apply -f -)
 
