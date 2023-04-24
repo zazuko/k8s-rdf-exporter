@@ -1,10 +1,8 @@
-import { NamedNode } from '@rdfjs/types';
-import { APIList, ClownfacePtr, GlobalContext } from '../global';
-import {
-  rdf, rdfs, k8s, GeneratedNamespace,
-} from '../namespaces';
-import { iri as namespaceIri } from './namespace';
-import { iri as ociIri, process as processOci } from './oci';
+import { NamedNode } from "@rdfjs/types";
+import { APIList, ClownfacePtr, GlobalContext } from "../global";
+import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces";
+import { iri as namespaceIri } from "./namespace";
+import { iri as ociIri, process as processOci } from "./oci";
 
 /**
  * Build IRI for a deployment.
@@ -19,8 +17,9 @@ export const iri = (
   ns: GeneratedNamespace,
   cluster: string,
   namespace: string,
-  name: string,
-): NamedNode => ns[`cluster/${cluster}/namespace/${namespace}/deployment/${name}`];
+  name: string
+): NamedNode =>
+  ns[`cluster/${cluster}/namespace/${namespace}/deployment/${name}`];
 
 /**
  * Build IRI for a deployment resource.
@@ -39,8 +38,11 @@ export const resourceIri = (
   namespace: string,
   deploymentName: string,
   kind: string,
-  name: string,
-): NamedNode => ns[`cluster/${cluster}/namespace/${namespace}/deployment/${deploymentName}/${kind}/${name}`];
+  name: string
+): NamedNode =>
+  ns[
+    `cluster/${cluster}/namespace/${namespace}/deployment/${deploymentName}/${kind}/${name}`
+  ];
 
 /**
  * Create nodes in the dataset for all deployments.
@@ -52,7 +54,7 @@ export const resourceIri = (
 export const fetch = async (
   context: GlobalContext,
   api: APIList,
-  ptr: ClownfacePtr,
+  ptr: ClownfacePtr
 ): Promise<void> => {
   const { ns, nsOci, cluster } = context;
 
@@ -69,7 +71,7 @@ export const fetch = async (
 
     // create the named node for the deployment
     const deploymentPtr = ptr.namedNode(
-      iri(ns, cluster, deploymentNamespace, deploymentName),
+      iri(ns, cluster, deploymentNamespace, deploymentName)
     );
     deploymentPtr
       .addOut(rdf.type, k8s.Deployment)
@@ -77,14 +79,23 @@ export const fetch = async (
     if (deploymentNamespace) {
       deploymentPtr.addOut(
         k8s.namespace,
-        namespaceIri(ns, cluster, deploymentNamespace),
+        namespaceIri(ns, cluster, deploymentNamespace)
       );
     }
 
     // create a new node for each annotation
     Object.entries(item.metadata?.annotations || {}).forEach(([key, value]) => {
       ptr
-        .namedNode(resourceIri(ns, cluster, deploymentNamespace, deploymentName, 'annotation', key))
+        .namedNode(
+          resourceIri(
+            ns,
+            cluster,
+            deploymentNamespace,
+            deploymentName,
+            "annotation",
+            key
+          )
+        )
         .addOut(rdf.type, k8s.Annotation)
         .addOut(rdfs.label, key)
         .addOut(rdf.value, value)
@@ -94,7 +105,16 @@ export const fetch = async (
     // create a new node for each label
     Object.entries(item.metadata?.labels || {}).forEach(([key, value]) => {
       ptr
-        .namedNode(resourceIri(ns, cluster, deploymentNamespace, deploymentName, 'label', key))
+        .namedNode(
+          resourceIri(
+            ns,
+            cluster,
+            deploymentNamespace,
+            deploymentName,
+            "label",
+            key
+          )
+        )
         .addOut(rdf.type, k8s.Label)
         .addOut(rdfs.label, key)
         .addOut(rdf.value, value)
@@ -119,10 +139,7 @@ export const fetch = async (
     });
 
     if (images.length > 0) {
-      deploymentPtr.addOut(
-        k8s.image,
-        images,
-      );
+      deploymentPtr.addOut(k8s.image, images);
     }
   });
 };

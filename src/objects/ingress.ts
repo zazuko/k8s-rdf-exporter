@@ -1,9 +1,7 @@
-import { NamedNode } from '@rdfjs/types';
-import { APIList, ClownfacePtr, GlobalContext } from '../global';
-import {
-  rdf, rdfs, k8s, GeneratedNamespace,
-} from '../namespaces';
-import { iri as namespaceIri } from './namespace';
+import { NamedNode } from "@rdfjs/types";
+import { APIList, ClownfacePtr, GlobalContext } from "../global";
+import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces";
+import { iri as namespaceIri } from "./namespace";
 
 /**
  * Build IRI for an ingress.
@@ -18,7 +16,7 @@ export const iri = (
   ns: GeneratedNamespace,
   cluster: string,
   namespace: string,
-  name: string,
+  name: string
 ): NamedNode => ns[`cluster/${cluster}/namespace/${namespace}/ingress/${name}`];
 
 /**
@@ -36,8 +34,11 @@ export const hostIri = (
   cluster: string,
   namespace: string,
   ingress: string,
-  name: string,
-): NamedNode => ns[`cluster/${cluster}/namespace/${namespace}/ingress/${ingress}/host/${name}`];
+  name: string
+): NamedNode =>
+  ns[
+    `cluster/${cluster}/namespace/${namespace}/ingress/${ingress}/host/${name}`
+  ];
 
 /**
  * Create nodes in the dataset for all ingresses.
@@ -49,7 +50,7 @@ export const hostIri = (
 export const fetch = async (
   context: GlobalContext,
   api: APIList,
-  ptr: ClownfacePtr,
+  ptr: ClownfacePtr
 ): Promise<void> => {
   const { ns, cluster } = context;
 
@@ -66,15 +67,13 @@ export const fetch = async (
 
     // create the named node for the ingress
     const ingressPtr = ptr.namedNode(
-      iri(ns, cluster, ingressNamespace, ingressName),
+      iri(ns, cluster, ingressNamespace, ingressName)
     );
-    ingressPtr
-      .addOut(rdf.type, k8s.Ingress)
-      .addOut(rdfs.label, ingressName);
+    ingressPtr.addOut(rdf.type, k8s.Ingress).addOut(rdfs.label, ingressName);
     if (ingressNamespace) {
       ingressPtr.addOut(
         k8s.namespace,
-        namespaceIri(ns, cluster, ingressNamespace),
+        namespaceIri(ns, cluster, ingressNamespace)
       );
     }
 

@@ -1,8 +1,6 @@
-import { NamedNode } from '@rdfjs/types';
-import { ClownfacePtr } from '../global';
-import {
-  rdf, rdfs, oci, GeneratedNamespace,
-} from '../namespaces';
+import { NamedNode } from "@rdfjs/types";
+import { ClownfacePtr } from "../global";
+import { rdf, rdfs, oci, GeneratedNamespace } from "../namespaces";
 
 export type OCI = {
   registry: string;
@@ -17,11 +15,12 @@ export type OCI = {
  * @param name name of the deployment.
  * @returns IRI for a cluster.
  */
-export const iri = (ns: GeneratedNamespace, name: string): NamedNode => ns[`${name}`];
+export const iri = (ns: GeneratedNamespace, name: string): NamedNode =>
+  ns[`${name}`];
 
 export const toOCI = (img: string): OCI | null => {
   const parts = img.match(
-    /^(?:(?<registry>[a-z0-9-]+\.[a-z0-9.-]+(?::[0-9]+)?)\/)?(?<path>(?:[0-9a-z_-]+)(?:\/(?:[0-9a-z._-]+))*)(?::(?<tag>[0-9a-z._-]+))?(?:@(?<digest>.+))?$/,
+    /^(?:(?<registry>[a-z0-9-]+\.[a-z0-9.-]+(?::[0-9]+)?)\/)?(?<path>(?:[0-9a-z_-]+)(?:\/(?:[0-9a-z._-]+))*)(?::(?<tag>[0-9a-z._-]+))?(?:@(?<digest>.+))?$/
   );
   if (!parts || !parts.groups) {
     return null;
@@ -31,14 +30,14 @@ export const toOCI = (img: string): OCI | null => {
   if (!path) {
     return null;
   }
-  if (!path.includes('/')) {
+  if (!path.includes("/")) {
     path = `library/${path}`;
   }
   if (!registry) {
-    registry = 'docker.io';
+    registry = "docker.io";
   }
   if (!tag) {
-    tag = 'latest';
+    tag = "latest";
   }
 
   return {
@@ -57,7 +56,11 @@ export const toString = (ociObject?: OCI | null): string | null => {
 
 export const standardize = (img: string): string | null => toString(toOCI(img));
 
-export const process = (ns: GeneratedNamespace, img: string, ptr: ClownfacePtr): string | null => {
+export const process = (
+  ns: GeneratedNamespace,
+  img: string,
+  ptr: ClownfacePtr
+): string | null => {
   const ociData = toOCI(img);
   if (!ociData) {
     return null;

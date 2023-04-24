@@ -1,10 +1,8 @@
-import { NamedNode } from '@rdfjs/types';
-import { APIList, ClownfacePtr, GlobalContext } from '../global';
-import {
-  rdf, rdfs, k8s, GeneratedNamespace,
-} from '../namespaces';
-import { iri as namespaceIri } from './namespace';
-import { iri as ociIri, process as processOci } from './oci';
+import { NamedNode } from "@rdfjs/types";
+import { APIList, ClownfacePtr, GlobalContext } from "../global";
+import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces";
+import { iri as namespaceIri } from "./namespace";
+import { iri as ociIri, process as processOci } from "./oci";
 
 /**
  * Build IRI for a StatefulSet.
@@ -19,8 +17,9 @@ export const iri = (
   ns: GeneratedNamespace,
   cluster: string,
   namespace: string,
-  name: string,
-): NamedNode => ns[`cluster/${cluster}/namespace/${namespace}/statefulset/${name}`];
+  name: string
+): NamedNode =>
+  ns[`cluster/${cluster}/namespace/${namespace}/statefulset/${name}`];
 
 /**
  * Build IRI for a StatefulSet resource.
@@ -39,8 +38,11 @@ export const resourceIri = (
   namespace: string,
   statefulSetName: string,
   kind: string,
-  name: string,
-): NamedNode => ns[`cluster/${cluster}/namespace/${namespace}/statefulset/${statefulSetName}/${kind}/${name}`];
+  name: string
+): NamedNode =>
+  ns[
+    `cluster/${cluster}/namespace/${namespace}/statefulset/${statefulSetName}/${kind}/${name}`
+  ];
 
 /**
  * Create nodes in the dataset for all StatefulSets.
@@ -52,7 +54,7 @@ export const resourceIri = (
 export const fetch = async (
   context: GlobalContext,
   api: APIList,
-  ptr: ClownfacePtr,
+  ptr: ClownfacePtr
 ): Promise<void> => {
   const { ns, nsOci, cluster } = context;
 
@@ -69,7 +71,7 @@ export const fetch = async (
 
     // create the named node for the StatefulSet
     const statefulSetPtr = ptr.namedNode(
-      iri(ns, cluster, statefulSetNamespace, statefulSetName),
+      iri(ns, cluster, statefulSetNamespace, statefulSetName)
     );
     statefulSetPtr
       .addOut(rdf.type, k8s.StatefulSet)
@@ -77,14 +79,23 @@ export const fetch = async (
     if (statefulSetNamespace) {
       statefulSetPtr.addOut(
         k8s.namespace,
-        namespaceIri(ns, cluster, statefulSetNamespace),
+        namespaceIri(ns, cluster, statefulSetNamespace)
       );
     }
 
     // create a new node for each annotation
     Object.entries(item.metadata?.annotations || {}).forEach(([key, value]) => {
       ptr
-        .namedNode(resourceIri(ns, cluster, statefulSetNamespace, statefulSetName, 'annotation', key))
+        .namedNode(
+          resourceIri(
+            ns,
+            cluster,
+            statefulSetNamespace,
+            statefulSetName,
+            "annotation",
+            key
+          )
+        )
         .addOut(rdf.type, k8s.Annotation)
         .addOut(rdfs.label, key)
         .addOut(rdf.value, value)
@@ -94,7 +105,16 @@ export const fetch = async (
     // create a new node for each label
     Object.entries(item.metadata?.labels || {}).forEach(([key, value]) => {
       ptr
-        .namedNode(resourceIri(ns, cluster, statefulSetNamespace, statefulSetName, 'label', key))
+        .namedNode(
+          resourceIri(
+            ns,
+            cluster,
+            statefulSetNamespace,
+            statefulSetName,
+            "label",
+            key
+          )
+        )
         .addOut(rdf.type, k8s.Label)
         .addOut(rdfs.label, key)
         .addOut(rdf.value, value)
@@ -119,10 +139,7 @@ export const fetch = async (
     });
 
     if (images.length > 0) {
-      statefulSetPtr.addOut(
-        k8s.image,
-        images,
-      );
+      statefulSetPtr.addOut(k8s.image, images);
     }
   });
 };

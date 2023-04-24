@@ -1,9 +1,7 @@
-import { NamedNode } from '@rdfjs/types';
-import { APIList, ClownfacePtr, GlobalContext } from '../global';
-import {
-  rdf, rdfs, k8s, GeneratedNamespace,
-} from '../namespaces';
-import { iri as clusterIri } from './cluster';
+import { NamedNode } from "@rdfjs/types";
+import { APIList, ClownfacePtr, GlobalContext } from "../global";
+import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces";
+import { iri as clusterIri } from "./cluster";
 
 /**
  * Build IRI for a namespace.
@@ -13,7 +11,11 @@ import { iri as clusterIri } from './cluster';
  * @param name name of the namespace.
  * @returns IRI for a cluster.
  */
-export const iri = (ns: GeneratedNamespace, cluster: string, name: string): NamedNode => ns[`cluster/${cluster}/namespace/${name}`];
+export const iri = (
+  ns: GeneratedNamespace,
+  cluster: string,
+  name: string
+): NamedNode => ns[`cluster/${cluster}/namespace/${name}`];
 
 /**
  * Build IRI for a namespace resource.
@@ -30,7 +32,7 @@ export const resourceIri = (
   cluster: string,
   namespace: string,
   kind: string,
-  name: string,
+  name: string
 ): NamedNode => ns[`cluster/${cluster}/namespace/${namespace}/${kind}/${name}`];
 
 /**
@@ -43,7 +45,7 @@ export const resourceIri = (
 export const fetch = async (
   context: GlobalContext,
   api: APIList,
-  ptr: ClownfacePtr,
+  ptr: ClownfacePtr
 ): Promise<void> => {
   const { ns, cluster } = context;
 
@@ -67,7 +69,7 @@ export const fetch = async (
     // create a new node for each annotation
     Object.entries(item.metadata?.annotations || {}).forEach(([key, value]) => {
       ptr
-        .namedNode(resourceIri(ns, cluster, namespaceName, 'annotation', key))
+        .namedNode(resourceIri(ns, cluster, namespaceName, "annotation", key))
         .addOut(rdf.type, k8s.Annotation)
         .addOut(rdfs.label, key)
         .addOut(rdf.value, value)
@@ -77,7 +79,7 @@ export const fetch = async (
     // create a new node for each label
     Object.entries(item.metadata?.labels || {}).forEach(([key, value]) => {
       ptr
-        .namedNode(resourceIri(ns, cluster, namespaceName, 'label', key))
+        .namedNode(resourceIri(ns, cluster, namespaceName, "label", key))
         .addOut(rdf.type, k8s.Label)
         .addOut(rdfs.label, key)
         .addOut(rdf.value, value)

@@ -1,8 +1,6 @@
-import { NamedNode } from '@rdfjs/types';
-import { APIList, ClownfacePtr, GlobalContext } from '../global';
-import {
-  rdf, rdfs, k8s, GeneratedNamespace,
-} from '../namespaces';
+import { NamedNode } from "@rdfjs/types";
+import { APIList, ClownfacePtr, GlobalContext } from "../global";
+import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces";
 
 /**
  * Build IRI for a cluster.
@@ -11,7 +9,8 @@ import {
  * @param cluster name of the cluster.
  * @returns IRI for a cluster.
  */
-export const iri = (ns: GeneratedNamespace, cluster: string): NamedNode => ns[`cluster/${cluster}`];
+export const iri = (ns: GeneratedNamespace, cluster: string): NamedNode =>
+  ns[`cluster/${cluster}`];
 
 /**
  * Create node in the dataset for the cluster.
@@ -23,11 +22,9 @@ export const iri = (ns: GeneratedNamespace, cluster: string): NamedNode => ns[`c
 export const fetch = async (
   context: GlobalContext,
   _api: APIList,
-  ptr: ClownfacePtr,
+  ptr: ClownfacePtr
 ): Promise<void> => {
   const { ns, cluster } = context;
   const clusterPtr = ptr.namedNode(iri(ns, cluster));
-  clusterPtr
-    .addOut(rdf.type, k8s.Cluster)
-    .addOut(rdfs.label, cluster);
+  clusterPtr.addOut(rdf.type, k8s.Cluster).addOut(rdfs.label, cluster);
 };
