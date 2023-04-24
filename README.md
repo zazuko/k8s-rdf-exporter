@@ -21,14 +21,12 @@ npm run build # build everything
 #   - `k8s-rdf-exporter` ClusterRoleBinding, that gives the SA the `view` ClusterRole
 (cd k8s && kustomize build | kubectl apply -f -)
 
-K8S_SECRET_NAME=$(kubectl -n kube-system get secret -o name | grep k8s-rdf-exporter)
-
 export K8S_CLUSTER_NAME=$(kubectl config view --minify -o 'jsonpath={.clusters[0].name}')
 export K8S_API_URL=$(kubectl config view --minify -o 'jsonpath={.clusters[0].cluster.server}')
-export K8S_SERVICE_TOKEN=$(kubectl -n kube-system get "${K8S_SECRET_NAME}" -o jsonpath='{.data.token}' | base64 -d)
+export K8S_SERVICE_TOKEN=$(kubectl -n kube-system get secret k8s-rdf-exporter -o jsonpath='{.data.token}' | base64 -d)
 export K8S_CERTIFICATE_PATH="/tmp/k8s-rdf-exporter-cert.txt"
 
-kubectl -n kube-system get "${K8S_SECRET_NAME}" \
+kubectl -n kube-system get secret k8s-rdf-exporter \
   -o jsonpath='{.data.ca\.crt}' | base64 -d > "${K8S_CERTIFICATE_PATH}"
 
 node dist/cli.js \
