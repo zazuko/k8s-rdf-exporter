@@ -21,11 +21,6 @@ import { buildDataset } from "./dataset.js";
   program.parse(process.argv);
   const options = program.opts();
 
-  if (options.version) {
-    console.log(process.env.npm_package_version || "dirty");
-    process.exit(0);
-  }
-
   // build the configuration object to use
   const config: Config = {
     apiUrl: options.apiUrl ? `${options.apiUrl}` : undefined,
