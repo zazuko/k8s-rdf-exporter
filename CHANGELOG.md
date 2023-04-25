@@ -1,5 +1,11 @@
 # @zazuko/k8s-rdf-exporter
 
+## 0.3.1
+
+### Patch Changes
+
+- 16ae80e: Remove --version arg for the CLI
+
 ## 0.3.0
 
 ### Minor Changes
