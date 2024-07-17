@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2018",
     "module": "NodeNext",
     "strict": true,
     "esModuleInterop": true,
@@ -13,6 +13,6 @@
     "resolveJsonModule": true,
     "downlevelIteration": true,
     "declaration": true,
-    "lib": ["es2020", "dom"]
+    "lib": []
   }
 }

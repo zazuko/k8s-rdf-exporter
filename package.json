@@ -29,7 +29,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.5.3"
   },
   "dependencies": {
     "@kubernetes/client-node": "^0.18.1",
