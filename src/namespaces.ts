@@ -1,6 +1,12 @@
 import namespace from "@rdfjs/namespace";
 
-export { rdf, rdfs } from "@tpluscode/rdf-ns-builders";
+import env from "@zazuko/env";
+
+const namespaces = env.ns;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const rdf: any = namespaces.rdf;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const rdfs: any = namespaces.rdfs;
 
 export const generateNamespace = (ns: string) => namespace(ns);
 export type GeneratedNamespace = ReturnType<typeof generateNamespace>;

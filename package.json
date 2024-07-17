@@ -20,8 +20,7 @@
   "keywords": [],
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
-    "@types/clownface": "^1.5.2",
-    "@types/rdf-ext": "^2.2.0",
+    "@types/clownface": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "eslint": "^8.39.0",
@@ -32,14 +31,13 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.18.1",
+    "@kubernetes/client-node": "^0.21.0",
     "@rdfjs/namespace": "^2.0.0",
     "@rdfjs/types": "^1.1.0",
-    "@tpluscode/rdf-ns-builders": "^3.0.3",
     "@tpluscode/rdf-string": "^1.0.2",
-    "clownface": "^1.5.1",
-    "commander": "^10.0.1",
-    "rdf-ext": "^2.2.0"
+    "@zazuko/env": "^2.2.1",
+    "clownface": "^2.0.2",
+    "commander": "^10.0.1"
   },
   "publishConfig": {
     "access": "public"

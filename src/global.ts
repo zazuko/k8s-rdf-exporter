@@ -1,7 +1,7 @@
 import { AppsV1Api, CoreV1Api, NetworkingV1Api } from "@kubernetes/client-node";
-import clownface from "clownface";
 import { GeneratedNamespace } from "./namespaces.js";
 import { DatasetCore } from "@rdfjs/types";
+import { AnyContext, AnyPointer } from "clownface";
 
 /**
  * Global context.
@@ -28,7 +28,4 @@ export type APIList = {
 /**
  * Alias for the clownface pointer type.
  */
-export type ClownfacePtr = clownface.AnyPointer<
-  clownface.AnyContext,
-  DatasetCore
->;
+export type ClownfacePtr = AnyPointer<AnyContext, DatasetCore>;
