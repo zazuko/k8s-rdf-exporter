@@ -1,5 +1,11 @@
 # @zazuko/k8s-rdf-exporter
 
+## 0.3.2
+
+### Patch Changes
+
+- 135a1aa: Upgrade various dependencies
+
 ## 0.3.1
 
 ### Patch Changes
