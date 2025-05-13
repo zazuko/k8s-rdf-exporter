@@ -60,7 +60,7 @@ export const fetch = async (
 
   // fetch all StatefulSets
   const apiStatefulSets = await api.apps.listStatefulSetForAllNamespaces();
-  const statefulSets = apiStatefulSets.body.items;
+  const statefulSets = apiStatefulSets.items;
 
   statefulSets.forEach((item) => {
     const statefulSetName = item.metadata?.name;
