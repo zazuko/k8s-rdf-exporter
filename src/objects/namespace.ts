@@ -51,7 +51,7 @@ export const fetch = async (
 
   // fetch all namespaces
   const apiNamespaces = await api.core.listNamespace();
-  const namespaces = apiNamespaces.body.items;
+  const namespaces = apiNamespaces.items;
 
   namespaces.forEach((item) => {
     const namespaceName = item.metadata?.name;

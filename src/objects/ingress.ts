@@ -56,7 +56,7 @@ export const fetch = async (
 
   // fetch all ingresses
   const apiIngresses = await api.networking.listIngressForAllNamespaces();
-  const ingresses = apiIngresses.body.items;
+  const ingresses = apiIngresses.items;
 
   ingresses.forEach((item) => {
     const ingressName = item.metadata?.name;

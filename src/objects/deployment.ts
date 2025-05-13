@@ -60,7 +60,7 @@ export const fetch = async (
 
   // fetch all deployments
   const apiDeployments = await api.apps.listDeploymentForAllNamespaces();
-  const deployments = apiDeployments.body.items;
+  const deployments = apiDeployments.items;
 
   deployments.forEach((item) => {
     const deploymentName = item.metadata?.name;
