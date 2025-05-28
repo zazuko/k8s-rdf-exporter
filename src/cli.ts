@@ -16,6 +16,7 @@ import { buildDataset } from "./dataset.js";
     .option("-c, --cluster-name <name>", "Kubernetes cluster name")
     .option("-p, --certificate-path <path>", "CA Certificate path")
     .option("-t, --service-token <token>", "service token to use")
+    .option("-k, --skip-tls-verify", "skip TLS verification")
     .option("--version", "display current version");
 
   program.parse(process.argv);
@@ -33,6 +34,7 @@ import { buildDataset } from "./dataset.js";
     baseIriOci: options.baseIriOci
       ? `${options.baseIriOci}`
       : defaultBaseIriOci,
+    skipTLSVerify: options.skipTlsVerify ? true : false,
   };
 
   // specify the namespace if needed
