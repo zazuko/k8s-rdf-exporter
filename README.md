@@ -42,3 +42,21 @@ node dist/cli.js \
   --certificate-path="${K8S_CERTIFICATE_PATH}" \
   --service-token="${K8S_SERVICE_TOKEN}"
 ```
+
+## Supported options
+
+```
+Usage: cli [options]
+
+Options:
+  -n, --namespace <name>         name of the namespace to use
+  -b, --base-iri <baseIRI>       baseIRI to use for resources
+  --base-iri-oci <baseIRI>       baseIRI to use for OCI resources
+  -u, --api-url <url>            API URL
+  -c, --cluster-name <name>      Kubernetes cluster name
+  -p, --certificate-path <path>  CA Certificate path
+  -t, --service-token <token>    service token to use
+  -k, --skip-tls-verify          skip TLS verification
+  --version                      display current version
+  -h, --help                     display help for command
+```

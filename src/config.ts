@@ -14,6 +14,7 @@ export type Config = {
   certificatePath?: string;
   baseIri?: string;
   baseIriOci?: string;
+  skipTLSVerify?: boolean;
 };
 
 /**
@@ -48,7 +49,7 @@ export const buildConfig = (config?: Config): KubeConfig => {
   kc.addCluster({
     name: config.clusterName,
     server: config.apiUrl,
-    skipTLSVerify: false,
+    skipTLSVerify: config.skipTLSVerify ?? false,
     caFile: config.certificatePath,
   });
   kc.addUser({
