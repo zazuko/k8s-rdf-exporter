@@ -1,5 +1,11 @@
 # @zazuko/k8s-rdf-exporter
 
+## 0.3.3
+
+### Patch Changes
+
+- 29251c6: Add `-k`, `--skip-tls-verify` option, to skip TLS verification.
+
 ## 0.3.2
 
 ### Patch Changes
