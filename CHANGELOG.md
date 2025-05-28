@@ -1,5 +1,11 @@
 # @zazuko/k8s-rdf-exporter
 
+## 0.3.4
+
+### Patch Changes
+
+- 46e73c4: Add `--namespaces` option to only get resources from specific namespaces
+
 ## 0.3.3
 
 ### Patch Changes
