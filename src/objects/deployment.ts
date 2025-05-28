@@ -3,6 +3,7 @@ import { APIList, ClownfacePtr, GlobalContext } from "../global.js";
 import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces.js";
 import { iri as namespaceIri } from "./namespace.js";
 import { iri as ociIri, process as processOci } from "./oci.js";
+import { V1Deployment } from "@kubernetes/client-node";
 
 /**
  * Build IRI for a deployment.
@@ -56,11 +57,25 @@ export const fetch = async (
   api: APIList,
   ptr: ClownfacePtr
 ): Promise<void> => {
-  const { ns, nsOci, cluster } = context;
+  const { ns, nsOci, cluster, namespaces: nss } = context;
 
-  // fetch all deployments
-  const apiDeployments = await api.apps.listDeploymentForAllNamespaces();
-  const deployments = apiDeployments.items;
+  const deployments: V1Deployment[] = [];
+
+  if (nss.length > 0) {
+    // if namespaces are configured, only fetch resources from those
+    await Promise.all(
+      nss.map(async (name) => {
+        const res = await api.apps.listNamespacedDeployment({
+          namespace: name,
+        });
+        deployments.push(...res.items);
+      })
+    );
+  } else {
+    // fetch all deployments
+    const apiDeployments = await api.apps.listDeploymentForAllNamespaces();
+    deployments.push(...apiDeployments.items);
+  }
 
   deployments.forEach((item) => {
     const deploymentName = item.metadata?.name;

@@ -7,6 +7,8 @@ import { AnyContext, AnyPointer } from "clownface";
  * Global context.
  */
 export type GlobalContext = {
+  namespaces: string[];
+
   cluster: string;
 
   baseIri: string;

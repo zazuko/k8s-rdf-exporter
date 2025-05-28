@@ -2,6 +2,7 @@ import { NamedNode } from "@rdfjs/types";
 import { APIList, ClownfacePtr, GlobalContext } from "../global.js";
 import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces.js";
 import { iri as namespaceIri } from "./namespace.js";
+import { V1Ingress } from "@kubernetes/client-node";
 
 /**
  * Build IRI for an ingress.
@@ -52,11 +53,25 @@ export const fetch = async (
   api: APIList,
   ptr: ClownfacePtr
 ): Promise<void> => {
-  const { ns, cluster } = context;
+  const { ns, cluster, namespaces: nss } = context;
 
-  // fetch all ingresses
-  const apiIngresses = await api.networking.listIngressForAllNamespaces();
-  const ingresses = apiIngresses.items;
+  const ingresses: V1Ingress[] = [];
+
+  if (nss.length > 0) {
+    // if namespaces are configured, only fetch resources from those
+    await Promise.all(
+      nss.map(async (name) => {
+        const res = await api.networking.listNamespacedIngress({
+          namespace: name,
+        });
+        ingresses.push(...res.items);
+      })
+    );
+  } else {
+    // fetch all ingresses
+    const apiIngresses = await api.networking.listIngressForAllNamespaces();
+    ingresses.push(...apiIngresses.items);
+  }
 
   ingresses.forEach((item) => {
     const ingressName = item.metadata?.name;

@@ -33,6 +33,7 @@ export async function buildDataset(config?: Config): Promise<DatasetCore> {
   const baseIriOci = config?.baseIriOci ? config.baseIriOci : defaultBaseIriOci;
 
   const context: GlobalContext = {
+    namespaces: config?.namespaces || [],
     cluster,
     baseIri,
     baseIriOci,

@@ -15,6 +15,7 @@ export type Config = {
   baseIri?: string;
   baseIriOci?: string;
   skipTLSVerify?: boolean;
+  namespaces?: string[];
 };
 
 /**

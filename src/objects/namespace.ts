@@ -2,6 +2,7 @@ import { NamedNode } from "@rdfjs/types";
 import { APIList, ClownfacePtr, GlobalContext } from "../global.js";
 import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces.js";
 import { iri as clusterIri } from "./cluster.js";
+import { V1Namespace } from "@kubernetes/client-node";
 
 /**
  * Build IRI for a namespace.
@@ -47,11 +48,23 @@ export const fetch = async (
   api: APIList,
   ptr: ClownfacePtr
 ): Promise<void> => {
-  const { ns, cluster } = context;
+  const { ns, cluster, namespaces: nss } = context;
 
-  // fetch all namespaces
-  const apiNamespaces = await api.core.listNamespace();
-  const namespaces = apiNamespaces.items;
+  const namespaces: V1Namespace[] = [];
+
+  if (nss.length > 0) {
+    // if namespaces are configured, only fetch those
+    await Promise.all(
+      nss.map(async (name) => {
+        const namespace = await api.core.readNamespace({ name });
+        namespaces.push(namespace);
+      })
+    );
+  } else {
+    // fetch all namespaces
+    const apiNamespaces = await api.core.listNamespace();
+    namespaces.push(...apiNamespaces.items);
+  }
 
   namespaces.forEach((item) => {
     const namespaceName = item.metadata?.name;

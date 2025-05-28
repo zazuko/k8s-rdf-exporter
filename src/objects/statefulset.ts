@@ -3,6 +3,7 @@ import { APIList, ClownfacePtr, GlobalContext } from "../global.js";
 import { rdf, rdfs, k8s, GeneratedNamespace } from "../namespaces.js";
 import { iri as namespaceIri } from "./namespace.js";
 import { iri as ociIri, process as processOci } from "./oci.js";
+import { V1StatefulSet } from "@kubernetes/client-node";
 
 /**
  * Build IRI for a StatefulSet.
@@ -56,11 +57,25 @@ export const fetch = async (
   api: APIList,
   ptr: ClownfacePtr
 ): Promise<void> => {
-  const { ns, nsOci, cluster } = context;
+  const { ns, nsOci, cluster, namespaces: nss } = context;
 
-  // fetch all StatefulSets
-  const apiStatefulSets = await api.apps.listStatefulSetForAllNamespaces();
-  const statefulSets = apiStatefulSets.items;
+  const statefulSets: V1StatefulSet[] = [];
+
+  if (nss.length > 0) {
+    // if namespaces are configured, only fetch resources from those
+    await Promise.all(
+      nss.map(async (name) => {
+        const res = await api.apps.listNamespacedStatefulSet({
+          namespace: name,
+        });
+        statefulSets.push(...res.items);
+      })
+    );
+  } else {
+    // fetch all StatefulSets
+    const apiStatefulSets = await api.apps.listStatefulSetForAllNamespaces();
+    statefulSets.push(...apiStatefulSets.items);
+  }
 
   statefulSets.forEach((item) => {
     const statefulSetName = item.metadata?.name;

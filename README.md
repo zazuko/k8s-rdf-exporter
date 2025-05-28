@@ -50,6 +50,7 @@ Usage: cli [options]
 
 Options:
   -n, --namespace <name>         name of the namespace to use
+  --namespaces <namespaces...>   namespaces to use
   -b, --base-iri <baseIRI>       baseIRI to use for resources
   --base-iri-oci <baseIRI>       baseIRI to use for OCI resources
   -u, --api-url <url>            API URL
