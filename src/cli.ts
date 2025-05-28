@@ -10,6 +10,7 @@ import { buildDataset } from "./dataset.js";
 
   program
     .option("-n, --namespace <name>", "name of the namespace to use")
+    .option("--namespaces <namespaces...>", "namespaces to use")
     .option("-b, --base-iri <baseIRI>", "baseIRI to use for resources")
     .option("--base-iri-oci <baseIRI>", "baseIRI to use for OCI resources")
     .option("-u, --api-url <url>", "API URL")
@@ -21,6 +22,13 @@ import { buildDataset } from "./dataset.js";
 
   program.parse(process.argv);
   const options = program.opts();
+
+  const namespacesOption: string[] = options.namespaces
+    ? options.namespaces
+    : [];
+  const namespaces = namespacesOption.flatMap((ns) =>
+    ns.split(",").map((n) => n.trim())
+  );
 
   // build the configuration object to use
   const config: Config = {
@@ -35,6 +43,7 @@ import { buildDataset } from "./dataset.js";
       ? `${options.baseIriOci}`
       : defaultBaseIriOci,
     skipTLSVerify: options.skipTlsVerify ? true : false,
+    namespaces,
   };
 
   // specify the namespace if needed
