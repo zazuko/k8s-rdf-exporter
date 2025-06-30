@@ -1,6 +1,6 @@
 {
   "name": "@zazuko/k8s-rdf-exporter",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Kubernetes RDF exporter",
   "main": "dist/index.js",
   "bin": "./dist/cli.js",
