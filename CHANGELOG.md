@@ -1,5 +1,11 @@
 # @zazuko/k8s-rdf-exporter
 
+## 0.3.5
+
+### Patch Changes
+
+- c8debf7: Bump `@kubernetes/client-node` to 1.3.0
+
 ## 0.3.4
 
 ### Patch Changes
