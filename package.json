@@ -17,7 +17,12 @@
   "files": [
     "dist"
   ],
-  "keywords": [],
+  "keywords": [
+    "kubernetes",
+    "rdf",
+    "exporter",
+    "cli"
+  ],
   "devDependencies": {
     "@changesets/cli": "^2.29.5",
     "@types/clownface": "^2.0.10",
