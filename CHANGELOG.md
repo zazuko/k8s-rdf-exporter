@@ -1,5 +1,11 @@
 # @zazuko/k8s-rdf-exporter
 
+## 0.4.0
+
+### Minor Changes
+
+- 91508f1: Add `--generate-namespaces` option to be used in combination with `--namespaces` in order to create namespace objects on the fly instead of querying them from the cluster directly.
+
 ## 0.3.5
 
 ### Patch Changes
