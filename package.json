@@ -5,6 +5,13 @@
   "main": "dist/index.js",
   "bin": "./dist/cli.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zazuko/k8s-rdf-exporter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zazuko/k8s-rdf-exporter/issues"
+  },
   "scripts": {
     "build": "tsc -p . && chmod +x ./dist/cli.js",
     "start": "npm run build && node ./dist/cli.js",
