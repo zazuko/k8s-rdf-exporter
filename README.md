@@ -49,8 +49,9 @@ node dist/cli.js \
 Usage: cli [options]
 
 Options:
-  -n, --namespace <name>         name of the namespace to use
-  --namespaces <namespaces...>   namespaces to use
+  -n, --namespace <name>         name of the namespace to use by default for querying the cluster
+  --generate-namespaces          generate namespace objects instead of querying them from the cluster, to be used in combination with --namespaces option
+  --namespaces <namespaces...>   namespaces to query
   -b, --base-iri <baseIRI>       baseIRI to use for resources
   --base-iri-oci <baseIRI>       baseIRI to use for OCI resources
   -u, --api-url <url>            API URL
@@ -58,6 +59,5 @@ Options:
   -p, --certificate-path <path>  CA Certificate path
   -t, --service-token <token>    service token to use
   -k, --skip-tls-verify          skip TLS verification
-  --version                      display current version
   -h, --help                     display help for command
 ```

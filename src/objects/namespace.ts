@@ -37,6 +37,23 @@ export const resourceIri = (
 ): NamedNode => ns[`cluster/${cluster}/namespace/${namespace}/${kind}/${name}`];
 
 /**
+ * Generate a namespace object.
+ *
+ * @param name Name of the namespace to generate.
+ * @returns The generated namespace object.
+ */
+const generateNamespace = (name: string): V1Namespace => {
+  const ns: V1Namespace = {
+    metadata: {
+      name,
+      annotations: {},
+      labels: {},
+    },
+  };
+  return ns;
+};
+
+/**
  * Create nodes in the dataset for all namespaces.
  *
  * @param context RDF context.
@@ -56,6 +73,13 @@ export const fetch = async (
     // if namespaces are configured, only fetch those
     await Promise.all(
       nss.map(async (name) => {
+        // Generate namespace instead of fetching it
+        if (context.options.generateNamespaces) {
+          const genNs = generateNamespace(name);
+          namespaces.push(genNs);
+          return;
+        }
+
         const namespace = await api.core.readNamespace({ name });
         namespaces.push(namespace);
       })

@@ -16,6 +16,10 @@ export type GlobalContext = {
 
   baseIriOci: string;
   nsOci: GeneratedNamespace;
+
+  options: {
+    generateNamespaces: boolean;
+  };
 };
 
 /**
