@@ -11,6 +11,7 @@ export type Config = {
   apiUrl?: string;
   serviceToken?: string;
   namespace?: string;
+  generateNamespaces: boolean;
   certificatePath?: string;
   baseIri?: string;
   baseIriOci?: string;

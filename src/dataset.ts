@@ -39,6 +39,9 @@ export async function buildDataset(config?: Config): Promise<DatasetCore> {
     baseIriOci,
     ns: generateNamespace(baseIri),
     nsOci: generateNamespace(baseIriOci),
+    options: {
+      generateNamespaces: config?.generateNamespaces || false,
+    },
   };
 
   // list of all API clients that we are using
