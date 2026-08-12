@@ -1,5 +1,11 @@
 # @zazuko/k8s-rdf-exporter
 
+## 0.4.1
+
+### Patch Changes
+
+- dcafb10: Update dependencies, most notably `commander` to v15.
+
 ## 0.4.0
 
 ### Minor Changes
