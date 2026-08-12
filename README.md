@@ -43,6 +43,25 @@ node dist/cli.js \
   --service-token="${K8S_SERVICE_TOKEN}"
 ```
 
+## Tests
+
+```sh
+npm test # lint (oxlint) and type check
+```
+
+The integration tests ([`test/integration.test.ts`](test/integration.test.ts),
+run with the built-in Node test runner) run the CLI against a real cluster,
+parse the Turtle it produces and assert on the resulting quads:
+
+```sh
+npm run test:integration
+```
+
+They use the current `kubectl` context, so point it at a throwaway cluster —
+in CI it is a k3s cluster spawned by the workflow. Everything they create is
+named `k8s-rdf-exporter-test` and deleted again afterwards, so a real
+`k8s-rdf-exporter` deployment on the same cluster is never touched.
+
 ## Supported options
 
 ```

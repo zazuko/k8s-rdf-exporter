@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "import", "unicorn", "oxc", "promise", "node"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "error",
+    "pedantic": "off"
+  },
+  "rules": {
+    "no-console": "off",
+    "prefer-destructuring": "off"
+  },
+  "ignorePatterns": ["dist"]
+}

@@ -11,8 +11,8 @@
     "rootDir": "./src",
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
-    "downlevelIteration": true,
     "declaration": true,
     "lib": []
-  }
+  },
+  "include": ["src"]
 }

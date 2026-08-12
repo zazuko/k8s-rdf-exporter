@@ -1,0 +1,113 @@
+# Resources exercised by test/integration.test.ts.
+#
+# The exporter only reads object specs from the API server, so the pods
+# themselves do not need to become ready for the assertions to hold.
+#
+# Everything is named `k8s-rdf-exporter-test` on purpose: the test deletes what
+# it creates, and must never delete a real `k8s-rdf-exporter` deployment.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: k8s-rdf-exporter-test
+  labels:
+    test-label: namespace-label-value
+  annotations:
+    test-annotation: namespace-annotation-value
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment
+  namespace: k8s-rdf-exporter-test
+  labels:
+    test-label: deployment-label-value
+  annotations:
+    test-annotation: deployment-annotation-value
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-deployment
+  template:
+    metadata:
+      labels:
+        app: test-deployment
+    spec:
+      containers:
+        # no registry and no path prefix: the exporter is expected to
+        # normalize this to docker.io/library/nginx:1.29-alpine
+        - name: nginx
+          image: nginx:1.29-alpine
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: test-statefulset
+  namespace: k8s-rdf-exporter-test
+  labels:
+    test-label: statefulset-label-value
+  annotations:
+    test-annotation: statefulset-annotation-value
+spec:
+  serviceName: test-statefulset
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-statefulset
+  template:
+    metadata:
+      labels:
+        app: test-statefulset
+    spec:
+      containers:
+        # fully qualified image, already in normalized form
+        - name: redis
+          image: docker.io/library/redis:8.2-alpine
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress
+  namespace: k8s-rdf-exporter-test
+spec:
+  rules:
+    - host: test.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: test-statefulset
+                port:
+                  number: 80
+---
+# Mirrors k8s/ so the explicit-credentials path can be exercised, but scoped to
+# the test namespace and named so it cannot collide with a real deployment.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: k8s-rdf-exporter-test
+  namespace: k8s-rdf-exporter-test
+---
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: k8s-rdf-exporter-test
+  namespace: k8s-rdf-exporter-test
+  annotations:
+    kubernetes.io/service-account.name: k8s-rdf-exporter-test
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8s-rdf-exporter-test
+subjects:
+  - kind: ServiceAccount
+    name: k8s-rdf-exporter-test
+    namespace: k8s-rdf-exporter-test
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
