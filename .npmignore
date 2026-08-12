@@ -1,8 +1,9 @@
 .editorconfig
-.eslintrc.js
+.oxlintrc.json
 .git/
 .github/
 .gitignore
 *.tgz
 node_modules/
+test/
 tsconfig.json

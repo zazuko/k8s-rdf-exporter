@@ -3,9 +3,9 @@ import namespace from "@rdfjs/namespace";
 import env from "@zazuko/env";
 
 const namespaces = env.ns;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export const rdf: any = namespaces.rdf;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export const rdfs: any = namespaces.rdfs;
 
 export const generateNamespace = (ns: string) => namespace(ns);

@@ -48,7 +48,7 @@ import { buildDataset } from "./dataset.js";
     baseIriOci: options.baseIriOci
       ? `${options.baseIriOci}`
       : defaultBaseIriOci,
-    skipTLSVerify: options.skipTlsVerify ? true : false,
+    skipTLSVerify: Boolean(options.skipTlsVerify),
     namespaces,
     generateNamespaces: false,
   };

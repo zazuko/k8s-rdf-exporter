@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { AppsV1Api, CoreV1Api, NetworkingV1Api } from "@kubernetes/client-node";
 import clownface from "clownface";
 import rdf from "@zazuko/env";
